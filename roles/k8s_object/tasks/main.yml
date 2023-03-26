@@ -1,0 +1,42 @@
+---
+- name: Manage Kubernetes objects
+  kubernetes.core.k8s:
+    api_key: "{{ item.api_key | default(omit) }}" # Can also be specified via K8S_AUTH_API_KEY environment variable.
+    api_version: "{{ item.api_version | default('v1') }}"
+    append_hash: "{{ item.append_hash | default(false) }}"
+    apply: "{{ item.apply | default(omit) }}"
+    ca_cert: "{{ item.ca_cert | default(omit) }}" # Can also be specified via K8S_AUTH_SSL_CA_CERT environment variable.
+    client_cert: "{{ item.client_cert | default(omit) }}" # Can also be specified via K8S_AUTH_CERT_FILE environment variable.
+    client_key: "{{ item.client_key | default(omit) }}" # Can also be specified via K8S_AUTH_KEY_FILE environment variable.
+    context: "{{ item.context | default(omit) }}" # Can also be specified via K8S_AUTH_CONTEXT environment variable.
+    continue_on_error: "{{ item.continue_on_error | default(false) }}"
+    delete_options: "{{ item.delete_options | default(omit) }}"
+    force: "{{ item.force | default(false) }}"
+    generate_name: "{{ item.generate_name | default(omit) }}"
+    host: "{{ item.host | default(omit) }}" # Can also be specified via K8S_AUTH_HOST environment variable.
+    impersonate_groups: "{{ item.impersonate_groups | default(omit) }}" # Can also be specified via K8S_AUTH_IMPERSONATE_GROUPS environment variable.
+    impersonate_user: "{{ item.impersonate_user | default(omit) }}" # Can also be specified via K8S_AUTH_IMPERSONATE_USER environment variable.
+    kind: "{{ item.kind | default(omit) }}"
+    kubeconfig: "{{ item.kubeconfig | default(omit) }}" # Can also be provided as a dictionary, or specified via K8S_AUTH_KUBECONFIG environment variable.
+    label_selectors: "{{ item.label_selectors | default(omit) }}"
+    merge_type: "{{ item.merge_type | default(omit) }}"
+    name: "{{ item.name | default(omit) }}"
+    namespace: "{{ item.namespace | default(omit) }}"
+    no_proxy: "{{ item.no_proxy | default(omit) }}" # Can also be specified via K8S_AUTH_NO_PROXY environment variable.
+    password: "{{ item.password | default(omit) }}" # Can also be specified via K8S_AUTH_PASSWORD environment variable.
+    persist_config: "{{ item.persist_config | default(omit) }}" # Can also be specified via K8S_AUTH_PERSIST_CONFIG environment variable.
+    proxy: "{{ item.proxy | default(omit) }}" # Can also be specified via K8S_AUTH_PROXY environment variable.
+    proxy_headers: "{{ item.proxy_headers | default(omit) }}"
+    resource_definition: "{{ item.resource_definition | default(omit) }}"
+    server_side_apply: "{{ item.server_side_apply | default(omit) }}"
+    src: "{{ item.src | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    template: "{{ item.template | default(omit) }}"
+    username: "{{ item.username | default(omit) }}" # Can also be specified via K8S_AUTH_USERNAME environment variable.
+    validate: "{{ item.validate | default(omit) }}"
+    validate_certs: "{{ item.validate_certs | default(true) }}" # Can also be specified via K8S_AUTH_VERIFY_SSL environment variable.
+    wait: "{{ item.wait | default(false) }}"
+    wait_condition: "{{ item.wait_condition | default(omit) }}"
+    wait_sleep: "{{ item.wait_sleep | default(5) }}"
+    wait_timeout: "{{ item.wait_timeout | default(120) }}"
+  loop: "{{ k8s_objects }}"
