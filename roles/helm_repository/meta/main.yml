@@ -1,0 +1,14 @@
+galaxy_info:
+  author: Michael Wadman
+  description: Adds and removes Helm repositories.
+  license: "MIT"
+  min_ansible_version: "2.9"
+  galaxy_tags:
+    - "kubernetes"
+    - "k8s"
+    - "helm"
+  platforms:
+    - name: GenericLinux
+      versions:
+        - all
+dependencies: []

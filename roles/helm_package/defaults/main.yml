@@ -1,0 +1,12 @@
+---
+# See README.md HTML comment for details on why these variables are commented out.
+# helm_repo_preupdate_enable: true
+# # helm_repo_preupdate_api_key:
+# # helm_repo_preupdate_binary_path:
+# # helm_repo_preupdate_ca_cert:
+# # helm_repo_preupdate_context:
+# # helm_repo_preupdate_host:
+# # helm_repo_preupdate_kubeconfig:
+# # helm_repo_preupdate_validate_certs:
+
+helm_packages: []

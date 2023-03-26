@@ -1,0 +1,50 @@
+---
+# See README.md HTML comment for details on why this task is commented out.
+# - name: Update Helm repositories # noqa: args[module]
+#   kubernetes.core.helm:
+#     release_name: "dummy-name-for-helm-repo-update" # Both name and namespace are required parameters, so we set them to dummy values
+#     release_namespace: "dummy-namespace-for-helm-repo-update"
+#     release_state: absent
+#     update_repo_cache: true
+#     api_key: "{{ helm_repo_preupdate_api_key | default((helm_packages | map(attribute='api_key') | list | first), true) | default(omit) }}"
+#     binary_path: "{{ helm_repo_preupdate_binary_path | default((helm_packages | map(attribute='binary_path') | list | first), true) | default(omit) }}"
+#     ca_cert: "{{ helm_repo_preupdate_ca_cert | default((helm_packages | map(attribute='ca_cert') | list | first), true) | default(omit) }}"
+#     context: "{{ helm_repo_preupdate_context | default((helm_packages | map(attribute='context') | list | first), true) | default(omit) }}"
+#     host: "{{ helm_repo_preupdate_host | default((helm_packages | map(attribute='host') | list | first), true) | default(omit) }}"
+#     kubeconfig: "{{ helm_repo_preupdate_kubeconfig | default((helm_packages | map(attribute='kubeconfig') | list | first), true) | default(omit) }}"
+#     validate_certs: "{{ helm_repo_preupdate_validate_certs | default((helm_packages | map(attribute='validate_certs') | list | first), true) |
+#                         default(true) }}"
+#   when: helm_repo_preupdate_enable
+
+- name: Manage Helm packages # noqa: args[module]
+  kubernetes.core.helm:
+    release_name: "{{ item.release_name }}"
+    release_namespace: "{{ item.release_namespace }}"
+    release_state: "{{ item.release_state | default('present') }}"
+    chart_ref: "{{ item.chart_ref if ((item.release_state is defined and item.release_state == 'present') or item.release_state is not defined) else omit }}"
+    chart_repo_url: "{{ item.chart_repo_url | default(omit) }}"
+    chart_version: "{{ item.chart_version | default(omit) }}"
+    api_key: "{{ item.api_key | default(omit) }}" # Can also be specified via K8S_AUTH_API_KEY environment variable.
+    atomic: "{{ item.atomic | default(false) }}"
+    binary_path: "{{ item.binary_path | default(omit) }}"
+    ca_cert: "{{ item.ca_cert | default(omit) }}" # Can also be specified via K8S_AUTH_SSL_CA_CERT environment variable.
+    context: "{{ item.context | default(omit) }}" # Can also be specified via K8S_AUTH_CONTEXT environment variable.
+    create_namespace: "{{ item.create_namespace | default(false) }}"
+    dependency_update: "{{ item.dependency_update | default(false) }}" # Requires the dependencies block is present in chart.yaml or requirements.yaml.
+    disable_hook: "{{ item.disable_hook | default(false) }}"
+    force: "{{ item.force | default(false) }}"
+    history_max: "{{ item.history_max | default(omit) }}"
+    host: "{{ item.host | default(omit) }}" # Can also be specified via K8S_AUTH_HOST environment variable.
+    kubeconfig: "{{ item.kubeconfig | default(omit) }}" # Can also be provided as a dictionary, or specified via K8S_AUTH_KUBECONFIG environment variable.
+    post_renderer: "{{ item.post_renderer | default(omit) }}"
+    purge: "{{ item.purge | default(true) }}"
+    release_values: "{{ item.release_values | default(omit) }}"
+    replace: "{{ item.replace | default(false) }}"
+    set_values: "{{ item.set_values | default(omit) }}"
+    skip_crds: "{{ item.skip_crds | default(false) }}"
+    timeout: "{{ item.timeout | default('5m0s') }}"
+    update_repo_cache: "{{ item.update_repo_cache | default(false) }}"
+    validate_certs: "{{ item.validate_certs | default(true) }}"
+    values_files: "{{ item.values_files | default(omit) }}"
+    wait: "{{ item.wait | default(false) }}"
+  loop: "{{ helm_packages }}"
