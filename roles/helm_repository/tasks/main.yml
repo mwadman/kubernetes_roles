@@ -3,7 +3,7 @@
   kubernetes.core.helm_repository:
     repo_name: "{{ item.repo_name }}"
     repo_state: "{{ item.repo_state | default('present') }}"
-    repo_url: "{{ item.repo_url if ((item.state is defined and item.state == 'present') or item.state is not defined) else omit }}"
+    repo_url: "{{ item.repo_url if ((item.repo_state is defined and item.repo_state == 'present') or item.repo_state is not defined) else omit }}"
     api_key: "{{ item.api_key | default(omit) }}" # Can also be specified via K8S_AUTH_API_KEY environment variable.
     binary_path: "{{ item.binary_path | default(omit) }}"
     ca_cert: "{{ item.ca_cert | default(omit) }}" # Can also be specified via K8S_AUTH_SSL_CA_CERT environment variable.
